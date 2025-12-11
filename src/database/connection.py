@@ -1,3 +1,4 @@
+# Connection file
 import sqlite3
 
 def connect():
