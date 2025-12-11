@@ -1,33 +1,32 @@
 # Connection file
 import sqlite3
+from contextlib import contextmanager
+from pathlib import Path
+from typing import Iterator
 
-def connect():
-    # Create database
-    connection = sqlite3.connect("database.db")
-    cursor = connection.cursor()
+class DatabaseConnection:
+    """Database connection manager"""
 
-    # Create table Categories
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS Categories (
-    id INTEGER PRIMARY KEY,
-    name TEXT NOT NULL
-    );
-    ''')
+    def __init__(self, db_path: str = "data/database.db"):
+        self.db_path = Path(db_path)
+        self.db_path.parent.mkdir(exist_ok=True)
 
-    # Create table Ideas
-    cursor.execute('''
-    CREATE TABLE IF NOT EXISTS Ideas (
-    id INTEGER PRIMARY_KEY,
-    name TEXT NOT NULL,
-    about TEXT NOT NULL,
-    category_id INTEGER NOT NULL,
-    is_done BOOLEAN NOT NULL,
-    priority INTEGER NOT NULL,
-    creation_date DATE,
-    CONSTRAINT fk_category_id FOREIGN KEY (category_id) REFERENCES Categories (id) 
-    );
-    ''')
+    @contextmanager
+    def get_connection(self) -> Iterator[sqlite3.Connection]:
+        """Database context manager"""
 
-    # Save and exit
-    connection.commit()
-    connection.close()
+        conn = None
+        try:
+            conn = sqlite3.connect(self.db_path)
+            conn.row_factory = sqlite3.Row # return strings as dictionaries
+            yield conn
+            conn.commit()
+        except sqlite3.Error as e:
+            if conn:
+                conn.rollback()
+            raise e
+        finally:
+            if conn:
+                conn.close()
+
+db = DatabaseConnection()
