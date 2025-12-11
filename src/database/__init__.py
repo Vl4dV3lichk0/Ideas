@@ -1,5 +1,5 @@
 __version__ = "0.0.1"
 
-from .connection import connect
+from .connection import DatabaseConnection
 
-__all__ = ['connect']
+__all__ = ['DatabaseConnection']
