@@ -1,3 +1,13 @@
 Tests/
 data/
 .idea
+__pycache__/
+*/__pycache__/
+*.pyc 
+*.pyo
+*.egg
+.DS_Store
+venv/
+dist/
+build/
+*.log
