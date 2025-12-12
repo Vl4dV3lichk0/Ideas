@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from datetime import datetime
 from typing import Optional
 
+
 @dataclass
 class Category:
     """Category model"""
@@ -16,7 +17,8 @@ class Category:
             id=row['id'],
             name=row['name']
         )
-    
+
+
 @dataclass
 class Idea:
     """Idea model"""
