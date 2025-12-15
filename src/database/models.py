@@ -27,7 +27,7 @@ class Idea:
     category_id: int = None
     priority: int = None
     about: str = ""
-    creation_date: datetime = None
+    created_at: datetime = None
 
     @classmethod
     def from_row(cls, row: dict) -> 'Idea':
@@ -38,5 +38,5 @@ class Idea:
             category_id=row['category_id'],
             priority=row['priority'],
             about=row['about'],
-            creation_date=row['creation_date']
+            created_at=row['created_at']
         )

@@ -121,7 +121,7 @@ class IdeaCRUD:
             """)
     
     @staticmethod
-    def create_idea(name: str, category_id: int, priority: int, about: str, created_at: str) -> Optional[Idea]:
+    def create_idea(name: str, category_id: int, priority: int, about: str, created_at: Optional[str]) -> Optional[Idea]:
         """Idea creation"""
         with db.get_connection() as conn:
             cursor = conn.cursor()
@@ -132,7 +132,7 @@ class IdeaCRUD:
                     (name, category_id, priority, about, created_at)
                 )
                 idea_id = cursor.lastrowid
-                return CategoryCRUD.get_idea_by_id(idea_id)
+                return IdeaCRUD.get_idea_by_id(idea_id)
             except sqlite3.IntegrityError:
                 return None
     
@@ -177,7 +177,7 @@ class IdeaCRUD:
             return cursor.rowcount > 0
         
     @staticmethod
-    def delete_ideas(idea_id: int) -> bool:
+    def delete_idea(idea_id: int) -> bool:
         """Idea deletion"""
         with db.get_connection() as conn:
             cursor = conn.execute(
