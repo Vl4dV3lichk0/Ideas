@@ -121,13 +121,14 @@ class IdeaCRUD:
                 if created_at:
                     cursor.execute(
                         "INSERT INTO Ideas (name, category_id, priority, about, created_at) VALUES (?, ?, ?, ?, ?)",
-                        (name, category_id, priority, about, created_at)
+                        (name, category_id, priority, about, created_at,)
                     )
                 else:
                     cursor.execute(
                         "INSERT INTO Ideas (name, category_id, priority, about) VALUES (?, ?, ?, ?)",
-                        (name, category_id, priority, about, created_at)
+                        (name, category_id, priority, about,)
                     )
+                conn.commit()
                 idea_id = cursor.lastrowid
                 if not idea_id:
                     raise sqlite3.IntegrityError
