@@ -22,7 +22,7 @@ class CategoryService:
         
         category = CategoryCRUD.create_category(name)
 
-        if not category:
+        if category is None:
             return False, "This category does already exist.", None
         
         return True, "Category is successfuly created.", category
@@ -73,7 +73,7 @@ class IdeaService:
     """Idea services"""
 
     @staticmethod
-    def add_idea(name: str, category_id: Optional[int], priority: Optional[int], about: Optional[str], created_at: Optional[str]) -> tuple[bool, str, Optional[Idea]]:
+    def add_idea(name: str, category_id: int, priority: int, about: str, created_at: Optional[str]) -> tuple[bool, str, Optional[Idea]]:
         """
         Docstring for add_idea
         
@@ -93,7 +93,7 @@ class IdeaService:
         
         idea = IdeaCRUD.create_idea(name, category_id, priority, about, created_at)
 
-        if not idea:
+        if idea is None:
             return False, "This idea does already exist.", None
         
         return True, "Idea is successfuly created.", idea
@@ -117,7 +117,7 @@ class IdeaService:
         return idea
     
     @staticmethod
-    def update_idea(id: int, **kwargs) -> Optional[Idea]:
+    def update_idea(id: int, **kwargs) -> tuple[bool, str, Optional[Idea]]:
         """
         Docstring for update_idea
         
